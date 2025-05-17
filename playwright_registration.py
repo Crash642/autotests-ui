@@ -9,11 +9,14 @@ class LoginPage:
         self.password_input = page.get_by_test_id('registration-form-password-input').locator('input')
         self.login_button = page.get_by_test_id('registration-page-registration-button')
    
-    def login(self,email_input, username, password):
+    def login(self,email_input, username, password, click_login = True):
         self.email_input.fill(email_input)
         self.username_input.fill(username)
         self.password_input.fill(password)
-        self.login_button.click()
+        if click_login == True:
+            self.login_button.click()
+        else:
+            False
 
 def test_registration():
     with sync_playwright() as playwright:
@@ -26,5 +29,5 @@ def test_registration():
         expect(dashboard_text).to_be_visible()
         page.wait_for_timeout(5000)
 
-
-test_registration()
+if __name__ == "__main__":
+    test_registration()
