@@ -15,3 +15,7 @@ with sync_playwright() as playwright:
 
     # Добавляем паузу для наглядности результата
     page.wait_for_timeout(5000)
+
+# mouse.move(x, y) — перемещение курсора в указанные координаты.
+# mouse.click(x, y) — клик в определённой точке экрана.
+# mouse.down() и mouse.up() — для работы с зажатием и отпусканием кнопки мыши.
