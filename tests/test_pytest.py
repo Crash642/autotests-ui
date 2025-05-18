@@ -6,8 +6,6 @@ def test_greeting():
     greeting = "Hello, world!"
     assert greeting == "Hi, world!"
 
-def test_first_try():  # Этот тест мы добавили в предыдущем шаге
-    print("Hello World!")
 
 
 def test_assert_positive_case():  # Новый тест, которые проверяет положительный кейс
