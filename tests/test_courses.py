@@ -5,24 +5,16 @@ import pytest
 
 @pytest.mark.regression
 @pytest.mark.courses
-def test_empty_courses_list(chromium_page_with_state: Page):
-    page = chromium_page_with_state
-    page.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses")
+
+def test_empty_courses_list(courses_list_page: CoursesListPage):
+    courses_list_page.visit("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses")
+    courses_list_page.navbar.check_visible("username")
+    courses_list_page.sidebar.check_visible()
+    courses_list_page.check_visible_courses_title()
+    courses_list_page.check_visible_create_course_button()
+    courses_list_page.check_visible_empty_view()
     
-    courses_text = page.get_by_test_id('courses-list-toolbar-title-text')
-    expect(courses_text).to_be_visible()
-    expect(courses_text).to_have_text('Courses')
 
-    empty_view_icon = page.get_by_test_id('courses-list-empty-view-icon')
-    expect(empty_view_icon).to_be_visible()
-
-    courses_text_result = page.get_by_test_id('courses-list-empty-view-title-text')
-    expect(courses_text_result).to_be_visible()
-    expect(courses_text_result).to_have_text('There is no results')
-
-    courses_text_displayed = page.get_by_test_id('courses-list-empty-view-description-text')
-    expect(courses_text_displayed).to_be_visible()
-    expect(courses_text_displayed).to_have_text('Results from the load test pipeline will be displayed here')
 
 @pytest.mark.regression
 @pytest.mark.courses
