@@ -1,15 +1,16 @@
 from playwright.sync_api import Page, expect
 
 from components.base_component import BaseComponent
+from elements.input import Input
 
 
 class RegistrationFormComponent(BaseComponent):
     def __init__(self, page: Page):
         super().__init__(page)
 
-        self.email_registration_input = page.get_by_test_id('registration-form-email-input').locator('input')
-        self.username_registration_input = page.get_by_test_id('registration-form-username-input').locator('input')
-        self.password_registration_input = page.get_by_test_id('registration-form-password-input').locator('input')
+        self.email_registration_input = Input(page,'registration-form-email-input', 'registration_Email')
+        self.username_registration_input = Input(page,'registration-form-username-input', 'registration_Username')
+        self.password_registration_input = Input(page,'registration-form-password-input', 'registration_Password')
 
     def fill(self, email: str, username:str, password: str):
         self.email_registration_input.fill(email)
@@ -17,10 +18,10 @@ class RegistrationFormComponent(BaseComponent):
         self.password_registration_input.fill(password)
 
     def check_visible(self, email: str, username: str, password: str):
-        expect(self.email_registration_input).to_be_visible()
-        expect(self.username_registration_input).to_be_visible()
-        expect(self.password_registration_input).to_be_visible()
+        self.email_registration_input.check_visible()
+        self.username_registration_input.check_visible()
+        self.password_registration_input.check_visible()
 
-        expect(self.email_registration_input).to_have_value(email)
-        expect(self.username_registration_input).to_have_value(username)
-        expect(self.password_registration_input).to_have_value(password)
+        self.email_registration_input.check_have_value(email)
+        self.username_registration_input.check_have_value(username)
+        self.password_registration_input.check_have_value(password)
