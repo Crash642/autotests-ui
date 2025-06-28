@@ -35,6 +35,7 @@ class Settings(BaseSettings):
     browsers: list[Browser]
     test_user: TestUser
     test_data: TestData
+    allure_results_dir: DirectoryPath
     videos_dir: DirectoryPath
     tracing_dir: DirectoryPath
     browser_state_file: FilePath
@@ -47,18 +48,20 @@ class Settings(BaseSettings):
         # Указываем пути
         videos_dir = DirectoryPath("./videos")
         tracing_dir = DirectoryPath("./tracing")
+        allure_results_dir = DirectoryPath("./allure-results")
         browser_state_file = FilePath("browser-state.json")
          
         
         videos_dir.mkdir(exist_ok=True)  
         tracing_dir.mkdir(exist_ok=True)
-        # Создаем файл состояния браузера, если его нет
+        allure_results_dir.mkdir(exist_ok=True)
         browser_state_file.touch(exist_ok=True) 
         
       
         return Settings(
             videos_dir=videos_dir,
             tracing_dir=tracing_dir,
+            allure_results_dir=allure_results_dir,
             browser_state_file=browser_state_file
         )
 
