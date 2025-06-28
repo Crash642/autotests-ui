@@ -1,4 +1,5 @@
 from playwright.sync_api import sync_playwright
+from tools.routes import AppRoute
 
 with sync_playwright() as playwright:
     # Открываем браузер и создаем новую страницу
@@ -7,7 +8,7 @@ with sync_playwright() as playwright:
 
     # Переходим на страницу входа
     page.goto(
-        "https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/login",
+        AppRoute.LOGIN,
         wait_until='networkidle'  # Ждем полной загрузки страницы
     )
 

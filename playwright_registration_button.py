@@ -1,11 +1,12 @@
 from playwright_registration import LoginPage
 from playwright.sync_api import sync_playwright, expect
+from tools.routes import AppRoute
 
 def test_button():
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=False)
         page = browser.new_page()
-        page.goto('https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/registration')
+        page.goto(AppRoute.REGISTRATION)
         login_page = LoginPage(page)
         login_button = login_page.login_button
         expect(login_button).to_be_disabled()

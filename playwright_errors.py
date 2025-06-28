@@ -1,6 +1,7 @@
 from playwright.sync_api import sync_playwright, expect
 
 from playwright.sync_api import sync_playwright
+from tools.routes import AppRoute
 
 with sync_playwright() as playwright:
     # Открываем браузер и создаем новую страницу
@@ -8,7 +9,7 @@ with sync_playwright() as playwright:
     page = browser.new_page()
 
     # Переходим на страницу входа
-    page.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/login")
+    page.goto(AppRoute.LOGIN)
 
     # Пытаемся проверить, что несуществующий локатор виден на странице
     # unknown = page.locator('#unknown')

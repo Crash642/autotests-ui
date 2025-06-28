@@ -1,4 +1,5 @@
 from playwright.sync_api import sync_playwright, expect
+from tools.routes import AppRoute
 
 
 class LoginPage:
@@ -22,7 +23,7 @@ def test_registration():
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=False)
         page = browser.new_page()
-        page.goto('https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/registration')
+        page.goto(AppRoute.REGISTRATION)
         login_page = LoginPage(page)
         login_page.login('user.name@gmail.com', 'username', 'password')
         dashboard_text = page.get_by_test_id('dashboard-toolbar-title-text')
