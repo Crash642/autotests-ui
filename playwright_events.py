@@ -1,5 +1,6 @@
 from playwright.sync_api import sync_playwright, Request, Response
 from tools.routes import AppRoute
+from config import settings
 
 
 # Логирование запросов
@@ -14,7 +15,7 @@ def log_response(response: Response):
 
 with sync_playwright() as playwright:
     # Открываем браузер и создаём новую страницу
-    browser = playwright.chromium.launch(headless=False)
+    browser = playwright.chromium.launch(headless=settings.headless)
     page = browser.new_page()
 
     # Добавляем обработчики событий

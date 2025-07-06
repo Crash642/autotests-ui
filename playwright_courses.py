@@ -3,7 +3,7 @@ from tools.routes import AppRoute
 from config import settings
 
 with sync_playwright() as playwright:
-    browser = playwright.chromium.launch(headless=False)
+    browser = playwright.chromium.launch(headless=settings.headless)
     context = browser.new_context()
     page = context.new_page()
 
@@ -29,7 +29,7 @@ with sync_playwright() as playwright:
 
 
 with sync_playwright() as playwright:
-    browser = playwright.chromium.launch(headless=False)
+    browser = playwright.chromium.launch(headless=settings.headless)
     context = browser.new_context(storage_state = settings.browser_state_file) # Указываем файл с сохраненным состоянием
     page = context.new_page()
 

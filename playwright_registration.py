@@ -1,5 +1,6 @@
 from playwright.sync_api import sync_playwright, expect
 from tools.routes import AppRoute
+from config import settings
 
 
 class LoginPage:
@@ -21,7 +22,7 @@ class LoginPage:
 
 def test_registration():
     with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(headless=False)
+        browser = playwright.chromium.launch(headless=settings.headless)
         page = browser.new_page()
         page.goto(AppRoute.REGISTRATION)
         login_page = LoginPage(page)
