@@ -3,7 +3,7 @@
 This project implements automated tests for
 the [UI Course Test Application](https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/login). The
 tests are written using **Python**, **Pytest**, **Allure** and **Playwright**. The test application’s source code is available
-on [GitHub](https://github.com/Nikita-Filonov/qa-automation-engineer-ui-course).
+on [GitHub](https://github.com/Crash642/autotests-ui).
 
 ## Project Overview
 
