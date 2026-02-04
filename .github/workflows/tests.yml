@@ -2,11 +2,17 @@ name: UI tests
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
   pull_request:
-    branches:
-      - main
+    branches: [ "main" ]
+
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ui-tests-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   run-tests:
@@ -17,9 +23,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
+          cache: "pip"
 
       - name: Install dependencies
         run: |
@@ -31,7 +38,7 @@ jobs:
         run: |
           pytest -m regression --alluredir=allure-results --numprocesses 2
 
-      # Восстанавливаем историю покрытия из кеша
+
       - name: Restore Coverage history
         uses: actions/cache/restore@v4
         with:
@@ -40,20 +47,17 @@ jobs:
           restore-keys: |
             coverage-history-
 
-      # Генерируем HTML-отчет и обновляем историю
       - name: Generate Coverage report
         run: |
           ui-coverage-tool save-report
 
-      # Сохраняем историю обратно в кеш
-      - name: Cache Coverage  history
+      - name: Cache Coverage history
         if: always()
         uses: actions/cache/save@v4
         with:
           path: coverage-history.json
           key: coverage-history-${{ github.run_id }}
 
-      # Загружаем HTML-отчет как артефакт
       - name: Upload Coverage report
         if: always()
         uses: actions/upload-artifact@v4
@@ -73,9 +77,13 @@ jobs:
     needs: [ run-tests ]
     runs-on: ubuntu-latest
 
+
+    if: ${{ always() && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+
     steps:
-      - name: Check out repository
+      - name: Check out repository (gh-pages)
         uses: actions/checkout@v4
+        continue-on-error: true
         with:
           ref: gh-pages
           path: gh-pages
@@ -86,15 +94,14 @@ jobs:
           name: allure-results
           path: allure-results
 
-      - name: Generates Allure Report with history
-        uses: simple-elf/allure-report-action@v1.7
-        if: always()
+      - name: Generate Allure report with history
+        uses: simple-elf/allure-report-action@v1.13
         with:
           allure_results: allure-results
+          gh_pages: gh-pages
           allure_history: allure-history
 
-      - name: Deploy report to Github Pages
-        if: always()
+      - name: Deploy report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
